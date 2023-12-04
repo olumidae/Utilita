@@ -14,7 +14,7 @@ export class BillService {
         let totalCost = 0;
         // input rate passed in to the system
         const rates: BillingRates = JSON.parse(event.body);
-        
+
         // assuming data from meter is not empty and its new
         for (const meterReading of meterReadings) {
 
