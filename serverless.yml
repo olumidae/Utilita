@@ -26,19 +26,13 @@ custom:
 
 functions:
   rateHandler:
-    handler: app/handler.sendBill
+    handler: app/handler.calculateBill
     events:
       - schedule: rate(1 hour)
       - httpApi:
           path: /post-bill
           method: post      
       
-  cronHandler:
-    handler: index.run
-    events:
-      # Invoke Lambda function every 2nd minute from Mon-Fri
-      - schedule: cron(0/2 * ? * MON-FRI *)
-
 
 resources:
   Resources:
