@@ -9,11 +9,16 @@ export class BillService {
     constructor(){
     }
 
-    async CalculateBill(event: APIGatewayProxyEventV2, meterReadings?: MeterData[], rates?: BillingRates) {
+    async CalculateBill(event: APIGatewayProxyEventV2, meterReadings?: MeterData[]) {
         let billingDetails = [];
         let totalCost = 0;
+        // input rate passed in to the system
+        const rates: BillingRates = JSON.parse(event.body);
         
+        // assuming data from meter is not empty and its new
         for (const meterReading of meterReadings) {
+
+            // get rate that will based on 
           let ratePerUnit = getRate(meterReading.timestamp, rates);
           let readingCost = ratePerUnit * meterReading.reading;
           totalCost += readingCost;
