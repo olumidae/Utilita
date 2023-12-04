@@ -1,6 +1,7 @@
 import { ErrorResponse, SucessResponse } from "../utility/response";
 import { APIGatewayProxyEventV2 } from "aws-lambda";
 import { BillingRates, MeterData } from "../models/index";
+import { plainToClass } from "class-transformer";
 import AWS, { SQS } from 'aws-sdk';
 import { getRate,} from "../utility/utils";
 
@@ -8,9 +9,10 @@ export class BillService {
     constructor(){
     }
 
-    async CalculateBill(meterReadings: MeterData[], rates: BillingRates) {
+    async CalculateBill(event: APIGatewayProxyEventV2, meterReadings?: MeterData[], rates?: BillingRates) {
         let billingDetails = [];
         let totalCost = 0;
+        
         for (const meterReading of meterReadings) {
           let ratePerUnit = getRate(meterReading.timestamp, rates);
           let readingCost = ratePerUnit * meterReading.reading;
