@@ -26,7 +26,7 @@ custom:
 
 functions:
   rateHandler:
-    handler: app/handler.calculateBill
+    handler: app/handler.CalculateBill
     events:
       - schedule: rate(1 hour)
       - httpApi:
