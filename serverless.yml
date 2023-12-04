@@ -1,0 +1,57 @@
+service: utilita
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: "dev"
+  region: eu-central-1
+  httpApi:
+    cors: true
+    # SNS Topic
+  environment:
+    SNS_TOPIC: { Ref: BillingTopic }
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "sns:Publish"
+      Resource:
+        - !Ref BillingTopic
+
+custom:
+  stage: "dev"
+  serverless-offline:
+    httpPort: 4000
+    lambdaPort: 4002
+
+functions:
+  rateHandler:
+    handler: app/handler.sendBill
+    events:
+      - schedule: rate(1 hour)
+      - httpApi:
+          path: /post-bill
+          method: post      
+      
+  cronHandler:
+    handler: index.run
+    events:
+      # Invoke Lambda function every 2nd minute from Mon-Fri
+      - schedule: cron(0/2 * ? * MON-FRI *)
+
+
+resources:
+  Resources:
+    BillingTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        DisplayName: "Billing sns topic description"
+        TopicName: BillingTopic
+
+  # output for later usages
+  Outputs:
+    BillingTopicInfo:
+      Description: Billing-topic
+      Value: !Ref BillingTopic
+      Export:
+        Name: Billing-topic

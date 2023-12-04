@@ -1,0 +1,22 @@
+{
+  "name": "utilita",
+  "version": "1.0.0",
+  "description": "Example of creating a function that runs as a cron job using the serverless `schedule` event",
+  "author": "olumide omitiran",
+  "license": "MIT",
+  "dependencies": {
+    "@middy/core": "^5.0.3",
+    "@middy/http-json-body-parser": "^5.0.3",
+    "aws-lambda": "^1.0.7",
+    "aws-sdk": "^2.1510.0",
+    "class-transformer": "^0.5.1",
+    "reflect-metadata": "^0.1.13",
+    "ts-node": "^10.9.1",
+    "tsyringe": "^4.8.0",
+    "typescript": "^5.3.2"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.130",
+    "@types/jest": "^29.5.10"
+  }
+}
