@@ -18,11 +18,13 @@ export class BillService {
         // assuming data from meter is not empty and its new
         for (const meterReading of meterReadings) {
 
-            // get rate that will based on 
+            // get rate that will based on peak and off peak perios
           let ratePerUnit = getRate(meterReading.timestamp, rates);
+
+
           let readingCost = ratePerUnit * meterReading.reading;
           totalCost += readingCost;
-        
+            // push total cost with meter details to be published or stored in a db
             billingDetails.push({
                 householdID: meterReading.id,
                 timestamp: meterReading.timestamp,
